@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Referencias de Precio · ISAOSA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --brand-green: #167A45;
+  --brand-green-dark: #0E5A32;
+  --brand-green-tint: #E4F1E8;
+  --brand-navy: #0B3352;
+  --brand-navy-dark: #082741;
+  --brand-lime: #8CC63F;
+  --bg: #F3F6F4;
+  --surface: #FFFFFF;
+  --surface-soft: #F7F9F7;
+  --border: #DCE5DF;
+  --border-strong: #C3D2C9;
+  --text: #16241B;
+  --text-soft: #55655C;
+  --text-faint: #8A988F;
+  --success: #167A45;
+  --success-bg: #E4F1E8;
+  --warning: #B5791C;
+  --warning-bg: #F6EAD3;
+  --danger: #B03A2C;
+  --danger-bg: #F4DFDA;
+  --shadow: 0 1px 2px rgba(11,51,82,0.06), 0 4px 14px rgba(11,51,82,0.05);
+  --radius: 10px;
+}
+
+*{ box-sizing:border-box; }
+@media (prefers-reduced-motion: reduce){ *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
+
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height:100vh;
+}
+h1,h2,h3{ font-family:'Manrope', sans-serif; margin:0; }
+a{ color: var(--brand-green); }
+:focus-visible{ outline:2px solid var(--brand-green); outline-offset:2px; }
+
+/* ================= TOP BAR ================= */
+.topbar{
+  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-navy-dark) 100%);
+  color:#fff;
+  padding: 14px 22px;
+  display:flex; align-items:center; justify-content:space-between; gap:14px;
+  flex-wrap:wrap;
+}
+.topbar .brand{ display:flex; align-items:center; gap:10px; }
+.brand-mark{
+  width:34px; height:34px; border-radius:8px;
+  background: var(--brand-lime);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Manrope',sans-serif; font-weight:800; color: var(--brand-navy-dark);
+  font-size:15px;
+}
+.brand-text b{ display:block; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.3px; }
+.brand-text span{ display:block; font-size:11px; color:#BFD4C6; }
+.topbar .user-area{ display:flex; align-items:center; gap:12px; font-size:13px; }
+.user-chip{ display:flex; align-items:center; gap:8px; }
+.user-avatar{
+  width:28px; height:28px; border-radius:50%;
+  background: var(--brand-lime); color: var(--brand-navy-dark);
+  font-weight:700; font-size:12px; display:flex; align-items:center; justify-content:center;
+  font-family:'Manrope',sans-serif;
+}
+.btn-logout{
+  background: rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);
+  color:#fff; font-size:12.5px; padding:7px 12px; border-radius:6px; cursor:pointer;
+}
+.btn-logout:hover{ background: rgba(255,255,255,0.18); }
+
+/* ================= AUTH SCREEN ================= */
+.auth-wrap{
+  min-height: calc(100vh - 0px);
+  display:flex; align-items:center; justify-content:center;
+  padding: 32px 18px;
+}
+.auth-card{
+  width:100%; max-width: 380px;
+  background: var(--surface);
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 30px 26px;
+}
+.auth-brand{ text-align:center; margin-bottom:20px; }
+.auth-brand .brand-mark{ margin:0 auto 10px; width:46px; height:46px; font-size:19px; border-radius:12px; }
+.auth-brand h1{ font-size:19px; color: var(--brand-navy); }
+.auth-brand p{ margin:4px 0 0; font-size:12.5px; color: var(--text-soft); }
+
+.tab-switch{ display:flex; background: var(--surface-soft); border:1px solid var(--border); border-radius:8px; padding:3px; margin-bottom:18px; }
+.tab-switch button{
+  flex:1; padding:8px; border:none; background:transparent; border-radius:6px;
+  font-size:12.5px; font-weight:600; color: var(--text-soft); cursor:pointer; font-family:'Inter',sans-serif;
+}
+.tab-switch button.active{ background: var(--surface); color: var(--brand-navy); box-shadow: var(--shadow); }
+
+.auth-form{ display:flex; flex-direction:column; gap:12px; }
+.auth-form .field{ display:flex; flex-direction:column; gap:5px; }
+.auth-form label{ font-size:11.5px; font-weight:600; color: var(--text-soft); }
+.auth-form input{
+  padding:10px 11px; border:1px solid var(--border-strong); border-radius:7px;
+  font-size:14px; background: var(--surface-soft); color:var(--text); font-family:'Inter',sans-serif;
+}
+.auth-form input:focus{ border-color: var(--brand-green); background:var(--surface); }
+.btn-brand{
+  margin-top:6px;
+  background: var(--brand-green);
+  color:#fff; border:none; padding:11px; border-radius:7px;
+  font-weight:700; font-size:14px; cursor:pointer; font-family:'Manrope',sans-serif;
+}
+.btn-brand:hover{ background: var(--brand-green-dark); }
+.auth-msg{ font-size:12.5px; min-height:16px; color: var(--danger); }
+.auth-msg.ok{ color: var(--success); }
+.auth-hint{ margin-top:16px; font-size:11.5px; color:var(--text-faint); text-align:center; line-height:1.5; }
+
+/* ================= LAYOUT ================= */
+.wrap{ max-width: 1040px; margin:0 auto; padding: 22px 18px 60px; }
+
+.page-head{ margin-bottom: 18px; }
+.page-head h1{ font-size: clamp(20px,3.4vw,26px); color: var(--brand-navy); }
+.page-head p{ margin:4px 0 0; font-size:13px; color: var(--text-soft); max-width:60ch; }
+
+.section-label{
+  font-family:'Manrope', sans-serif; font-weight:700; font-size:12px; letter-spacing:0.4px;
+  color: var(--brand-navy); text-transform:uppercase;
+  margin: 28px 0 10px; display:flex; align-items:center; gap:8px;
+}
+.section-label .dot{ width:7px; height:7px; border-radius:50%; background: var(--brand-lime); }
+
+.card{
+  background: var(--surface); border:1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding:20px;
+}
+
+/* ================= FORM ================= */
+.form-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:14px 18px; }
+@media (max-width:640px){ .form-grid{ grid-template-columns:1fr; } }
+.field{ display:flex; flex-direction:column; gap:5px; }
+.field.span2{ grid-column:1/-1; }
+label{ font-size:11.5px; font-weight:600; color: var(--text-soft); text-transform:uppercase; letter-spacing:0.4px; }
+input[type=text],input[type=number],input[type=date],select,textarea{
+  font-family:'Inter',sans-serif; font-size:14.5px; padding:9px 10px;
+  border:1px solid var(--border-strong); border-radius:7px; background: var(--surface-soft); color:var(--text);
+}
+textarea{ resize:vertical; min-height:54px; font-family:inherit; }
+input:focus,select:focus,textarea:focus{ border-color: var(--brand-green); background:var(--surface); }
+
+.row-inline{ display:flex; gap:8px; }
+.row-inline input{ flex:1; }
+.row-inline select{ width:92px; flex:0 0 auto; }
+
+.readonly-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:9px 12px; border-radius:7px; background: var(--brand-green-tint);
+  border:1px solid var(--border); font-size:13.5px; font-weight:600; color: var(--brand-green-dark);
+  width:fit-content;
+}
+
+.stamp-group{ display:flex; gap:10px; flex-wrap:wrap; }
+.stamp-btn{
+  font-family:'Manrope',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.4px;
+  padding:8px 16px; border:1.5px solid var(--border-strong); background: var(--surface-soft);
+  color: var(--text-soft); cursor:pointer; border-radius:50px; transition: all 0.12s ease;
+}
+.stamp-btn:hover{ border-color: var(--brand-green); }
+.stamp-btn[data-level="alta"].active{ border-color: var(--success); color:#fff; background: var(--success); }
+.stamp-btn[data-level="media"].active{ border-color: var(--warning); color:#fff; background: var(--warning); }
+.stamp-btn[data-level="baja"].active{ border-color: var(--danger); color:#fff; background: var(--danger); }
+
+.origen-radios{ display:flex; flex-direction:column; gap:6px; font-size:13.5px; color: var(--text-soft); }
+.origen-radios label{ text-transform:none; font-weight:400; letter-spacing:0; display:flex; align-items:center; gap:7px; cursor:pointer; }
+.origen-radios input{ accent-color: var(--brand-green); }
+
+.btn-primary{
+  font-family:'Manrope',sans-serif; font-weight:700; font-size:13.5px;
+  padding:11px 20px; background: var(--brand-green); color:#fff; border:none; cursor:pointer; border-radius:8px;
+}
+.btn-primary:hover{ background: var(--brand-green-dark); }
+.btn-ghost{
+  font-family:'Inter',sans-serif; font-size:12.5px; padding:9px 14px; background:transparent;
+  border:1px solid var(--border-strong); color: var(--text-soft); cursor:pointer; border-radius:8px;
+}
+.btn-ghost:hover{ border-color: var(--brand-navy); color: var(--brand-navy); }
+
+.form-actions{ display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap; }
+.form-msg{ font-size:12.5px; color: var(--success); }
+.form-msg.error{ color: var(--danger); }
+
+/* ================= FILTERS ================= */
+.filter-bar{ display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; }
+.filter-bar .field{ min-width:150px; flex:1 1 150px; }
+.toggle-mine{ display:flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text-soft); white-space:nowrap; padding-bottom:9px; }
+.toggle-mine input{ accent-color: var(--brand-green); }
+
+.stats-strip{ display:flex; gap:18px; flex-wrap:wrap; font-size:12.5px; color: var(--text-soft); margin:16px 2px 0; }
+.stats-strip b{ color: var(--brand-navy); font-size:14.5px; font-family:'Manrope',sans-serif; }
+
+/* ================= LEDGER ================= */
+.ledger{ margin-top:14px; border:1px solid var(--border); border-radius: var(--radius); overflow:hidden; background: var(--surface); }
+table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+thead th{
+  text-align:left; font-size:10.5px; letter-spacing:0.6px; text-transform:uppercase; font-weight:700;
+  color: var(--text-soft); padding:10px 12px; border-bottom:1px solid var(--border); background: var(--surface-soft); white-space:nowrap;
+}
+tbody tr{ border-bottom:1px solid var(--border); }
+tbody tr:hover{ background: var(--surface-soft); }
+tbody td{ padding:10px 12px; vertical-align:top; }
+td.num{ font-family:'JetBrains Mono', monospace; }
+.folio-cell{ font-family:'JetBrains Mono', monospace; color: var(--text-faint); font-size:12px; }
+.badge{ display:inline-block; font-family:'Manrope',sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.4px; padding:4px 10px; border-radius:50px; color:#fff; }
+.badge.alta{ background: var(--success); }
+.badge.media{ background: var(--warning); }
+.badge.baja{ background: var(--danger); }
+.origen-tag{ display:block; font-size:10.5px; color: var(--text-faint); margin-top:3px; }
+.promotor-tag{ font-size:12.5px; color: var(--text-soft); }
+.notas-preview{ font-size:12px; color: var(--text-faint); max-width:160px; display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.row-actions{ display:flex; gap:6px; white-space:nowrap; }
+.icon-btn{ border:1px solid var(--border-strong); background:transparent; color: var(--text-soft); font-size:11px; padding:4px 9px; cursor:pointer; border-radius:6px; }
+.icon-btn:hover{ border-color: var(--brand-navy); color: var(--brand-navy); }
+.icon-btn.danger:hover{ border-color: var(--danger); color: var(--danger); }
+.locked-note{ font-size:11px; color: var(--text-faint); }
+
+.ledger-cards{ display:none; flex-direction:column; }
+.entry-card{ border-bottom:1px solid var(--border); padding:12px 14px; display:flex; flex-direction:column; gap:6px; }
+.entry-card .top-row{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.entry-card .prod{ font-weight:700; font-size:14.5px; color: var(--brand-navy); }
+.entry-card .meta{ font-size:12.5px; color: var(--text-soft); display:flex; flex-wrap:wrap; gap:4px 10px; }
+.entry-card .plant{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--text-faint); }
+
+@media (max-width:720px){ .ledger table{ display:none; } .ledger-cards{ display:flex; } }
+
+.empty-state{ padding:34px 20px; text-align:center; color: var(--text-faint); font-size:13.5px; }
+.empty-state b{ display:block; color: var(--brand-navy); font-family:'Manrope',sans-serif; font-size:15px; margin-bottom:6px; }
+.loading-note{ padding:18px; text-align:center; color: var(--text-faint); font-size:12.5px; }
+
+footer.foot{ max-width:1040px; margin:30px auto 0; padding:0 18px; font-size:11.5px; color: var(--text-faint); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+.modal-backdrop{ position:fixed; inset:0; background: rgba(11,51,82,0.45); display:flex; align-items:center; justify-content:center; padding:20px; z-index:50; }
+.modal{ background: var(--surface); border-radius: var(--radius); max-width:360px; width:100%; padding:20px; box-shadow: var(--shadow); }
+.modal b{ font-family:'Manrope',sans-serif; color: var(--brand-navy); font-size:15px; }
+.modal p{ font-size:13.5px; color: var(--text-soft); }
+.modal .modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:14px; }
+
+[hidden]{ display:none !important; }
+</style>
+</head>
+<body>
+
+<!-- ================= AUTH SCREEN ================= -->
+<div id="auth-screen" class="auth-wrap">
+  <div class="auth-card">
+    <div class="auth-brand">
+      <div class="brand-mark">IS</div>
+      <h1>Referencias de Precio</h1>
+      <p>ISAOSA &middot; Inteligencia de mercado</p>
+    </div>
+
+    <div class="tab-switch" id="auth-tabs">
+      <button type="button" id="tab-login" class="active">Iniciar sesión</button>
+      <button type="button" id="tab-register">Crear cuenta</button>
+    </div>
+
+    <div class="auth-msg error" id="setup-notice" hidden style="background:var(--danger-bg);padding:10px 12px;border-radius:7px;margin-bottom:12px;line-height:1.5;">
+      Falta conectar el backend: abre este archivo .html en un editor de texto, busca <code>PEGA_AQUI_TU_URL_DE_APPS_SCRIPT</code> y reemplázalo con la URL de tu Apps Script (termina en <code>/exec</code>). Guarda el archivo y recarga la página.
+    </div>
+
+    <form id="login-form" class="auth-form">
+      <div class="field">
+        <label for="li-user">Correo electrónico</label>
+        <input type="email" id="li-user" autocomplete="username" placeholder="correo@isaosa.mx" required>
+      </div>
+      <div class="field">
+        <label for="li-pass">Contraseña</label>
+        <input type="password" id="li-pass" autocomplete="current-password" required>
+      </div>
+      <div class="auth-msg" id="login-msg"></div>
+      <button type="submit" class="btn-brand">Entrar</button>
+    </form>
+
+    <form id="register-form" class="auth-form" hidden>
+      <div class="field">
+        <label for="re-nombre">Nombre completo</label>
+        <input type="text" id="re-nombre" required>
+      </div>
+      <div class="field">
+        <label for="re-user">Correo electrónico</label>
+        <input type="email" id="re-user" autocomplete="username" placeholder="correo@isaosa.mx" required>
+      </div>
+      <div class="field">
+        <label for="re-pass">Contraseña</label>
+        <input type="password" id="re-pass" autocomplete="new-password" required minlength="4">
+      </div>
+      <div class="auth-msg" id="register-msg"></div>
+      <button type="submit" class="btn-brand">Crear cuenta</button>
+    </form>
+
+    <p class="auth-hint">Acceso solo para correos autorizados por un administrador. La sesión se guarda en este dispositivo hasta que cierres sesión.</p>
+  </div>
+</div>
+
+<!-- ================= MAIN APP ================= -->
+<div id="app-screen" hidden>
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">IS</div>
+      <div class="brand-text">
+        <b>Referencias de Precio</b>
+        <span>ISAOSA &middot; Inteligencia de mercado</span>
+      </div>
+    </div>
+    <div class="user-area">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">--</div>
+        <span id="user-name-label">—</span>
+      </div>
+      <button class="btn-logout" id="logout-btn">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="page-head">
+      <h1>Referencias de precio de la competencia</h1>
+      <p>Captura y consulta las referencias reportadas por el equipo, organizadas por producto y punto LAB de referencia.</p>
+    </div>
+
+    <div class="section-label" id="admin-section-label" hidden><span class="dot"></span>Administrar accesos</div>
+    <div class="card" id="admin-panel" hidden>
+      <p style="font-size:12.5px;color:var(--text-soft);margin:0 0 14px;">Solo los correos que agregues aquí pueden crear una cuenta y entrar a la app.</p>
+      <div class="form-actions" style="margin-top:0;flex-wrap:wrap;">
+        <input type="email" id="admin-new-email" placeholder="correo@isaosa.mx" style="flex:1;min-width:200px;padding:9px 10px;border:1px solid var(--border-strong);border-radius:7px;background:var(--surface-soft);font-family:'Inter',sans-serif;font-size:14px;">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-soft);white-space:nowrap;">
+          <input type="checkbox" id="admin-new-is-admin" style="accent-color:var(--brand-green);"> También administrador
+        </label>
+        <button type="button" class="btn-primary" id="admin-add-btn">Agregar correo</button>
+      </div>
+      <div class="auth-msg" id="admin-msg" style="margin-top:8px;"></div>
+      <div id="admin-list" style="margin-top:16px;display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+    <div class="section-label"><span class="dot"></span>Nueva referencia</div>
+    <div class="card">
+      <form id="entry-form">
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="f-producto">Producto</label>
+            <select id="f-producto" required></select>
+          </div>
+
+          <div class="field" id="producto-otro-wrap" hidden>
+            <label for="f-producto-otro">Especificar producto</label>
+            <input type="text" id="f-producto-otro" placeholder="Nombre del producto">
+          </div>
+
+          <div class="field">
+            <label for="f-planta">Puerto</label>
+            <select id="f-planta" required></select>
+          </div>
+
+          <div class="field">
+            <label for="f-competidor">Quién ofrece el precio</label>
+            <input type="text" id="f-competidor" placeholder="Empresa / proveedor" required>
+          </div>
+
+          <div class="field">
+            <label for="f-precio">Precio</label>
+            <div class="row-inline">
+              <input type="number" id="f-precio" step="0.01" min="0" placeholder="0.00" required>
+              <select id="f-moneda">
+                <option>USD</option>
+                <option>MXN</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="f-formato">Formato de venta</label>
+            <select id="f-formato" required>
+              <option value="">Selecciona&hellip;</option>
+              <option>Granel (LAB)</option>
+              <option>Tonelada M</option>
+              <option>Costado de Barco</option>
+              <option>Envasado</option>
+              <option>Costal 25 kg</option>
+              <option>Costal 50 kg</option>
+              <option>Big bag (1 TM)</option>
+              <option>Litro</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="field" id="formato-otro-wrap" hidden>
+            <label for="f-formato-otro">Especificar formato</label>
+            <input type="text" id="f-formato-otro" placeholder="Ej. tambo 200 L">
+          </div>
+
+          <div class="field span2">
+            <label>Nivel de confiabilidad</label>
+            <div class="stamp-group" id="nivel-group">
+              <button type="button" class="stamp-btn" data-level="alta">Alta</button>
+              <button type="button" class="stamp-btn" data-level="media">Media</button>
+              <button type="button" class="stamp-btn" data-level="baja">Baja</button>
+            </div>
+          </div>
+
+          <div class="field span2">
+            <label>Origen del dato</label>
+            <div class="origen-radios" id="origen-group">
+              <label><input type="radio" name="origen" value="Visto directo / cotización escrita" checked> Visto directo / cotización escrita</label>
+              <label><input type="radio" name="origen" value="Referido por cliente"> Referido por cliente</label>
+              <label><input type="radio" name="origen" value="Rumor de mercado"> Rumor de mercado</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Promotor</label>
+            <div class="readonly-chip" id="promotor-chip">—</div>
+          </div>
+
+          <div class="field">
+            <label for="f-fecha">Fecha</label>
+            <input type="date" id="f-fecha" required>
+          </div>
+
+          <div class="field span2">
+            <label for="f-notas">Notas (opcional)</label>
+            <textarea id="f-notas" placeholder="Contexto adicional&hellip;"></textarea>
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="submit-btn">Registrar referencia</button>
+          <button type="button" class="btn-ghost" id="cancel-edit-btn" hidden>Cancelar edición</button>
+          <span class="form-msg" id="form-msg"></span>
+        </div>
+      </form>
+    </div>
+
+    <div class="section-label"><span class="dot"></span>Historial de referencias</div>
+    <div class="card">
+      <div class="filter-bar">
+        <div class="field">
+          <label for="ft-producto">Producto</label>
+          <select id="ft-producto"><option value="">Todos</option></select>
+        </div>
+        <div class="field">
+          <label for="ft-planta">Puerto</label>
+          <select id="ft-planta"><option value="">Todos</option></select>
+        </div>
+        <div class="field">
+          <label for="ft-competidor">Competidor</label>
+          <input type="text" id="ft-competidor" placeholder="Buscar&hellip;">
+        </div>
+        <div class="field">
+          <label for="ft-nivel">Confiabilidad</label>
+          <select id="ft-nivel">
+            <option value="">Todas</option>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="ft-promotor">Promotor</label>
+          <select id="ft-promotor"><option value="">Todos</option></select>
+        </div>
+        <label class="toggle-mine">
+          <input type="checkbox" id="ft-mine"> Solo mis registros
+        </label>
+        <button class="btn-ghost" id="ft-clear" type="button">Limpiar filtros</button>
+      </div>
+
+      <div class="stats-strip" id="stats-strip"></div>
+
+      <div class="ledger" id="ledger">
+        <table>
+          <thead>
+            <tr>
+              <th>Folio</th><th>Fecha</th><th>Producto</th><th>Punto LAB</th><th>Competidor</th>
+              <th>Precio</th><th>Formato</th><th>Confiabilidad</th><th>Promotor</th><th>Notas</th><th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="ledger-body"></tbody>
+        </table>
+        <div class="ledger-cards" id="ledger-cards"></div>
+      </div>
+    </div>
+
+    <footer class="foot">
+      <span>Acceso restringido &middot; equipo ISAOSA</span>
+      <span id="footer-count"></span>
+    </footer>
+  </div>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+/* =========================================================================
+   CONFIGURACIÓN DEL BACKEND (Google Apps Script + Google Sheets)
+   -------------------------------------------------------------------------
+   1. Sigue las instrucciones que Claude te dio para publicar el script de
+      Google Apps Script como "Aplicación web" (acceso: Cualquier persona).
+   2. Copia la URL que termina en /exec y pégala abajo, entre las comillas.
+   3. Guarda el archivo. Ya no hace falta tocar nada más.
+   ========================================================================= */
+const API_URL = "https://script.google.com/macros/s/AKfycbzbiSiREyZ5eoTB0uHeVl9K6VusOLjrbJzwPC88OqZb5sRT-Wo7gW2-x-aeYUJnhM98/exec";
+
+function isBackendConfigured(){
+  return typeof API_URL === "string" && /^https:\/\/script\.google(usercontent)?\.com\//.test(API_URL.trim());
+}
+
+async function apiGet(params){
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(API_URL + "?" + qs, { method: "GET" });
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  if(!data || data.ok !== true) throw new Error((data && data.error) || "not_found");
+  return data;
+}
+async function apiPost(payload){
+  // Sent as text/plain on purpose: avoids a CORS preflight that Apps Script
+  // Web Apps don't handle, while the script still parses it as JSON.
+  const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(payload) });
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  const data = await res.json();
+  return data;
+}
+
+// Polyfill matching the same shape the app already expects, so the rest of
+// the app code (written against window.storage) doesn't need to change.
+window.storage = {
+  async get(key, shared){
+    const r = await apiGet({ action: "get", key });
+    return { key: r.key, value: r.value, shared: !!shared };
+  },
+  async set(key, value, shared){
+    const r = await apiPost({ action: "set", key, value });
+    if(!r || r.ok !== true) return null;
+    return { key: r.key, value: r.value, shared: !!shared };
+  },
+  async delete(key, shared){
+    const r = await apiPost({ action: "delete", key });
+    if(!r || r.ok !== true) return null;
+    return { key: r.key, deleted: true, shared: !!shared };
+  },
+  async list(prefix, shared){
+    const r = await apiGet({ action: "list", prefix: prefix || "" });
+    return { keys: r.keys || [], prefix, shared: !!shared };
+  }
+};
+</script>
+<script>
+(function(){
+  "use strict";
+
+  const PRODUCTOS_CATALOGO = [
+    "Urea Granular","Urea Prilada","NK 40-0-5","NS 43-0-0 2S",
+    "Sulfato de Amonio STD","Sulfato de Amonio Granular","DAP","MAP",
+    "MOP Granular (Cloruro de Potasio)","SOP Granular (Sulfato de Potasio)",
+    "Capitán","Microessentials","K-MAG Premium","UAN32","Granubor",
+    "APP 11-37","Tiger XP","GSOP","Fosfonitrato"];
+
+  const PLANTAS_CATALOGO = [
+    "Manzanillo","Topolobampo","Veracruz","Altamira",
+    "Tolvas Moctezuma","Tolvas La Barca",
+    "Costado de Barco – Manzanillo","Costado de Barco – Topolobampo"];
+
+  const $ = (id) => document.getElementById(id);
+
+  /* ================= AUTH ================= */
+  const authScreen = $("auth-screen");
+  const appScreen = $("app-screen");
+  const tabLogin = $("tab-login");
+  const tabRegister = $("tab-register");
+  const loginForm = $("login-form");
+  const registerForm = $("register-form");
+  const loginMsg = $("login-msg");
+  const registerMsg = $("register-msg");
+
+  let currentUser = null; // { username, nombre, isAdmin } — session identity is mirrored to localStorage (see SESSION_KEY) for persistence across reloads
+
+  const ALLOWLIST_KEY = 'access:allowlist';
+  const ADMINS_KEY = 'access:admins';
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const SEED_ADMIN_EMAILS = ['dem@isaosa.com.mx'];
+
+  async function getAllowlist(){
+    try{ const r = await window.storage.get(ALLOWLIST_KEY, true); return (r && r.value) ? JSON.parse(r.value) : []; }
+    catch(e){ return []; }
+  }
+  async function getAdmins(){
+    try{ const r = await window.storage.get(ADMINS_KEY, true); return (r && r.value) ? JSON.parse(r.value) : []; }
+    catch(e){ return []; }
+  }
+  async function setAllowlist(arr){ return window.storage.set(ALLOWLIST_KEY, JSON.stringify(arr), true); }
+  async function setAdmins(arr){ return window.storage.set(ADMINS_KEY, JSON.stringify(arr), true); }
+
+  tabLogin.addEventListener("click", () => {
+    tabLogin.classList.add("active"); tabRegister.classList.remove("active");
+    loginForm.hidden = false; registerForm.hidden = true;
+  });
+  tabRegister.addEventListener("click", () => {
+    tabRegister.classList.add("active"); tabLogin.classList.remove("active");
+    registerForm.hidden = false; loginForm.hidden = true;
+  });
+
+  async function sha256(text){
+    if(window.crypto && window.crypto.subtle){
+      const enc = new TextEncoder().encode(text);
+      const buf = await window.crypto.subtle.digest("SHA-256", enc);
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+    }
+    // fallback (very simple, non-cryptographic) if subtle crypto is unavailable
+    let h = 0;
+    for(let i=0;i<text.length;i++){ h = ((h<<5)-h) + text.charCodeAt(i); h |= 0; }
+    return "fb" + Math.abs(h).toString(16);
+  }
+
+  function randomSalt(){
+    return Math.random().toString(36).slice(2) + Date.now().toString(36);
+  }
+
+  function storageAvailable(){
+    return typeof window.storage !== "undefined" && window.storage
+      && typeof window.storage.get === "function"
+      && typeof window.storage.set === "function"
+      && isBackendConfigured();
+  }
+
+  registerForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    registerMsg.textContent = ""; registerMsg.classList.remove("ok");
+
+    if(!storageAvailable()){
+      registerMsg.textContent = "Falta configurar el backend (API_URL) en el archivo HTML. Revisa las instrucciones de configuración.";
+      return;
+    }
+
+    const nombre = $("re-nombre").value.trim();
+    const email = $("re-user").value.trim().toLowerCase();
+    const pass = $("re-pass").value;
+    if(!nombre || !EMAIL_RE.test(email) || pass.length < 4){
+      registerMsg.textContent = "Completa todos los campos con un correo válido (contraseña mínimo 4 caracteres).";
+      return;
+    }
+    try{
+      let existing = null;
+      try{ existing = await window.storage.get('users:' + email, true); }
+      catch(getErr){ existing = null; } // key not found throws — treat as "doesn't exist"
+
+      if(existing && existing.value){
+        registerMsg.textContent = "Ya existe una cuenta con ese correo. Intenta iniciar sesión.";
+        return;
+      }
+
+      const allowlist = await getAllowlist();
+      const isBootstrap = allowlist.length === 0; // first-ever account becomes admin + allowlisted
+      if(!isBootstrap && !allowlist.includes(email)){
+        registerMsg.textContent = "Tu correo no está autorizado. Pide a un administrador que te agregue en \u201cAdministrar accesos\u201d.";
+        return;
+      }
+
+      const salt = randomSalt();
+      const hash = await sha256(salt + ":" + pass);
+      const setResult = await window.storage.set('users:' + email, JSON.stringify({email, nombre, salt, hash}), true);
+      if(!setResult){
+        registerMsg.textContent = "El servidor de almacenamiento no confirmó el guardado. Intenta de nuevo.";
+        return;
+      }
+      if(isBootstrap){
+        await setAllowlist([email]);
+        await setAdmins([email]);
+      }
+      registerMsg.classList.add("ok");
+      registerMsg.textContent = isBootstrap
+        ? "Cuenta creada como administrador. Ya puedes iniciar sesión."
+        : "Cuenta creada. Ya puedes iniciar sesión.";
+      registerForm.reset();
+      setTimeout(() => tabLogin.click(), 700);
+    }catch(err){
+      console.error(err);
+      registerMsg.textContent = "No se pudo crear la cuenta" + (err && err.message ? (": " + err.message) : "") + ". Intenta de nuevo.";
+    }
+  });
+
+  const SESSION_KEY = 'isaosa_ref_precio_session_v1';
+
+  function saveSession(user){
+    try{ localStorage.setItem(SESSION_KEY, JSON.stringify({ email: user.username, nombre: user.nombre })); }
+    catch(e){ /* localStorage blocked (private mode, etc.) — session just won't persist */ }
+  }
+  function clearSession(){
+    try{ localStorage.removeItem(SESSION_KEY); } catch(e){}
+  }
+  async function tryResumeSession(){
+    if(!storageAvailable()) return;
+    let saved = null;
+    try{ const raw = localStorage.getItem(SESSION_KEY); if(raw) saved = JSON.parse(raw); }
+    catch(e){ saved = null; }
+    if(!saved || !saved.email) return;
+    try{
+      const allowlist = await getAllowlist();
+      if(!allowlist.includes(saved.email)){ clearSession(); return; } // access was revoked
+      const admins = await getAdmins();
+      currentUser = { username: saved.email, nombre: saved.nombre, isAdmin: admins.includes(saved.email) };
+      enterApp();
+    }catch(err){ console.error(err); }
+  }
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    loginMsg.textContent = "";
+
+    if(!storageAvailable()){
+      loginMsg.textContent = "Falta configurar el backend (API_URL) en el archivo HTML. Revisa las instrucciones de configuración.";
+      return;
+    }
+
+    const email = $("li-user").value.trim().toLowerCase();
+    const pass = $("li-pass").value;
+    try{
+      let rec = null;
+      try{ rec = await window.storage.get('users:' + email, true); }
+      catch(getErr){ rec = null; }
+
+      if(!rec || !rec.value){
+        loginMsg.textContent = "Correo o contraseña incorrectos.";
+        return;
+      }
+      const user = JSON.parse(rec.value);
+      const hash = await sha256(user.salt + ":" + pass);
+      if(hash !== user.hash){
+        loginMsg.textContent = "Correo o contraseña incorrectos.";
+        return;
+      }
+      const admins = await getAdmins();
+      currentUser = { username: user.email, nombre: user.nombre, isAdmin: admins.includes(user.email) };
+      saveSession(currentUser);
+      enterApp();
+    }catch(err){
+      console.error(err);
+      loginMsg.textContent = "No se pudo iniciar sesión" + (err && err.message ? (": " + err.message) : "") + ". Intenta de nuevo.";
+    }
+  });
+
+  $("logout-btn").addEventListener("click", () => {
+    currentUser = null;
+    clearSession();
+    appScreen.hidden = true;
+    authScreen.hidden = false;
+    loginForm.reset(); registerForm.reset();
+    loginMsg.textContent = ""; registerMsg.textContent = "";
+  });
+
+  function enterApp(){
+    authScreen.hidden = true;
+    appScreen.hidden = false;
+    $("user-name-label").textContent = currentUser.nombre;
+    $("user-avatar").textContent = currentUser.nombre.split(" ").map(p=>p[0]).slice(0,2).join("").toUpperCase();
+    $("promotor-chip").textContent = currentUser.nombre;
+    $("admin-section-label").hidden = !currentUser.isAdmin;
+    $("admin-panel").hidden = !currentUser.isAdmin;
+    if(currentUser.isAdmin) loadAdminPanel();
+    loadEntries();
+  }
+
+  /* ================= ADMIN: manage allowlist ================= */
+  async function loadAdminPanel(){
+    const listEl = $("admin-list");
+    listEl.innerHTML = '<div class="loading-note">Cargando accesos&hellip;</div>';
+    const allowlist = await getAllowlist();
+    const admins = await getAdmins();
+    renderAdminList(allowlist, admins);
+  }
+
+  function renderAdminList(allowlist, admins){
+    const listEl = $("admin-list");
+    if(!allowlist.length){
+      listEl.innerHTML = '<div class="empty-state" style="padding:14px;">Sin correos autorizados todavía.</div>';
+      return;
+    }
+    listEl.innerHTML = allowlist.map(email => {
+      const isAdminEmail = admins.includes(email);
+      const isSelf = email === currentUser.username;
+      const lastAdminStanding = isAdminEmail && admins.length <= 1;
+      const disableRemove = isSelf || lastAdminStanding;
+      return `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border:1px solid var(--border);border-radius:7px;background:var(--surface-soft);flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;">
+            <span>${escapeHtml(email)}</span>
+            ${isAdminEmail ? '<span class="badge" style="background:var(--brand-navy);">Admin</span>' : ''}
+            ${isSelf ? '<span class="locked-note">(tú)</span>' : ''}
+          </div>
+          <button type="button" class="icon-btn danger admin-remove-btn" data-email="${escapeHtml(email)}" ${disableRemove ? 'disabled title="No puedes quitar este acceso"' : ''}>Quitar acceso</button>
+        </div>`;
+    }).join("");
+    listEl.querySelectorAll(".admin-remove-btn").forEach(b => {
+      b.addEventListener("click", async () => {
+        const email = b.dataset.email;
+        try{
+          const freshAllow = (await getAllowlist()).filter(e => e !== email);
+          const freshAdmins = (await getAdmins()).filter(e => e !== email);
+          await setAllowlist(freshAllow);
+          await setAdmins(freshAdmins);
+          loadAdminPanel();
+        }catch(err){ console.error(err); }
+      });
+    });
+  }
+
+  $("admin-add-btn").addEventListener("click", async () => {
+    const msgEl = $("admin-msg");
+    msgEl.textContent = ""; msgEl.classList.remove("ok");
+    const emailInput = $("admin-new-email");
+    const email = emailInput.value.trim().toLowerCase();
+    if(!EMAIL_RE.test(email)){
+      msgEl.textContent = "Ingresa un correo válido.";
+      return;
+    }
+    try{
+      const allowlist = await getAllowlist();
+      if(allowlist.includes(email)){
+        msgEl.textContent = "Ese correo ya tiene acceso.";
+        return;
+      }
+      allowlist.push(email);
+      await setAllowlist(allowlist);
+      if($("admin-new-is-admin").checked){
+        const admins = await getAdmins();
+        if(!admins.includes(email)){ admins.push(email); await setAdmins(admins); }
+      }
+      msgEl.classList.add("ok");
+      msgEl.textContent = "Correo agregado. Ya puede crear su cuenta.";
+      emailInput.value = "";
+      $("admin-new-is-admin").checked = false;
+      loadAdminPanel();
+    }catch(err){
+      console.error(err);
+      msgEl.textContent = "No se pudo agregar el correo. Intenta de nuevo.";
+    }
+  });
+
+  /* ================= APP STATE ================= */
+  let entries = [];
+  let editingId = null;
+  let selectedNivel = "";
+
+  const form = $("entry-form");
+  const fProducto = $("f-producto");
+  const fProductoOtroWrap = $("producto-otro-wrap");
+  const fProductoOtro = $("f-producto-otro");
+  const fPlanta = $("f-planta");
+  const fCompetidor = $("f-competidor");
+  const fPrecio = $("f-precio");
+  const fMoneda = $("f-moneda");
+  const fFormato = $("f-formato");
+  const fFormatoOtroWrap = $("formato-otro-wrap");
+  const fFormatoOtro = $("f-formato-otro");
+  const fFecha = $("f-fecha");
+  const fNotas = $("f-notas");
+  const nivelGroup = $("nivel-group");
+  const formMsg = $("form-msg");
+  const submitBtn = $("submit-btn");
+  const cancelEditBtn = $("cancel-edit-btn");
+
+  const ftProducto = $("ft-producto");
+  const ftPlanta = $("ft-planta");
+  const ftCompetidor = $("ft-competidor");
+  const ftNivel = $("ft-nivel");
+  const ftPromotor = $("ft-promotor");
+  const ftMine = $("ft-mine");
+  const ftClear = $("ft-clear");
+
+  const ledgerBody = $("ledger-body");
+  const ledgerCards = $("ledger-cards");
+  const statsStrip = $("stats-strip");
+  const footerCount = $("footer-count");
+  const modalRoot = $("modal-root");
+
+  // populate producto selects
+  const prodOpts = ['<option value="">Selecciona…</option>']
+    .concat(PRODUCTOS_CATALOGO.map(p => `<option>${p}</option>`))
+    .concat(['<option value="Otro">Otro (especificar)</option>']);
+  fProducto.innerHTML = prodOpts.join("");
+  PRODUCTOS_CATALOGO.forEach(p => {
+    const o = document.createElement("option"); o.value = p; o.textContent = p;
+    ftProducto.appendChild(o);
+  });
+  const otroOptFilter = document.createElement("option");
+  otroOptFilter.value = "__otro__"; otroOptFilter.textContent = "Otro";
+  ftProducto.appendChild(otroOptFilter);
+
+  // populate planta selects
+  const plantaOpts = ['<option value="">Selecciona…</option>'].concat(PLANTAS_CATALOGO.map(p => `<option>${p}</option>`));
+  fPlanta.innerHTML = plantaOpts.join("");
+  PLANTAS_CATALOGO.forEach(p => {
+    const o = document.createElement("option"); o.value = p; o.textContent = p;
+    ftPlanta.appendChild(o);
+  });
+
+  fFecha.value = new Date().toISOString().slice(0,10);
+
+  fProducto.addEventListener("change", () => {
+    fProductoOtroWrap.hidden = fProducto.value !== "Otro";
+  });
+  fFormato.addEventListener("change", () => {
+    fFormatoOtroWrap.hidden = fFormato.value !== "Otro";
+  });
+
+  nivelGroup.querySelectorAll(".stamp-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      selectedNivel = btn.dataset.level;
+      nivelGroup.querySelectorAll(".stamp-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+  });
+
+  function money(val, currency){
+    const n = Number(val);
+    const formatted = n.toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2});
+    return '$' + formatted + ' ' + currency;
+  }
+  function levelLabel(l){ return l === 'alta' ? 'Alta' : l === 'media' ? 'Media' : 'Baja'; }
+  function escapeHtml(str){ const d = document.createElement("div"); d.textContent = str == null ? "" : str; return d.innerHTML; }
+
+  function resetForm(){
+    form.reset();
+    fFecha.value = new Date().toISOString().slice(0,10);
+    fProductoOtroWrap.hidden = true;
+    fFormatoOtroWrap.hidden = true;
+    selectedNivel = "";
+    nivelGroup.querySelectorAll(".stamp-btn").forEach(b => b.classList.remove("active"));
+    editingId = null;
+    submitBtn.textContent = "Registrar referencia";
+    cancelEditBtn.hidden = true;
+  }
+  cancelEditBtn.addEventListener("click", resetForm);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formMsg.textContent = ""; formMsg.classList.remove("error");
+
+    const producto = fProducto.value === "Otro" ? fProductoOtro.value.trim() : fProducto.value;
+    const formato = fFormato.value === "Otro" ? fFormatoOtro.value.trim() : fFormato.value;
+    const origenEl = document.querySelector('input[name="origen"]:checked');
+
+    if(!producto || !fPlanta.value || !fCompetidor.value.trim() || !fPrecio.value || !formato || !selectedNivel || !fFecha.value){
+      formMsg.textContent = "Falta completar campos requeridos (incluye punto LAB y confiabilidad).";
+      formMsg.classList.add("error");
+      return;
+    }
+
+    const id = editingId || (Date.now().toString(36) + Math.random().toString(36).slice(2,8));
+    const prev = editingId ? entries.find(x=>x.id===editingId) : null;
+    const entry = {
+      id,
+      producto, planta: fPlanta.value,
+      competidor: fCompetidor.value.trim(),
+      precio: Number(fPrecio.value), moneda: fMoneda.value,
+      formato,
+      nivel: selectedNivel,
+      origen: origenEl ? origenEl.value : "",
+      promotor: currentUser.nombre,
+      usuario: currentUser.username,
+      fecha: fFecha.value,
+      notas: fNotas.value.trim(),
+      creado: prev ? prev.creado : Date.now()
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Guardando…";
+    try{
+      const res = await window.storage.set('entries:' + id, JSON.stringify(entry), true);
+      if(!res){ throw new Error("Sin respuesta de almacenamiento"); }
+      formMsg.textContent = editingId ? "Referencia actualizada." : "Referencia registrada.";
+      resetForm();
+      await loadEntries();
+    }catch(err){
+      console.error(err);
+      formMsg.textContent = "No se pudo guardar. Intenta de nuevo.";
+      formMsg.classList.add("error");
+    }finally{
+      submitBtn.disabled = false;
+      if(submitBtn.textContent === "Guardando…") submitBtn.textContent = "Registrar referencia";
+    }
+  });
+
+  function startEdit(entry){
+    if(entry.usuario !== currentUser.username) return;
+    editingId = entry.id;
+    if(PRODUCTOS_CATALOGO.includes(entry.producto)){ fProducto.value = entry.producto; fProductoOtroWrap.hidden = true; }
+    else{ fProducto.value = "Otro"; fProductoOtroWrap.hidden = false; fProductoOtro.value = entry.producto; }
+    fPlanta.value = entry.planta || "";
+    fCompetidor.value = entry.competidor;
+    fPrecio.value = entry.precio;
+    fMoneda.value = entry.moneda;
+    const formatosFijos = ["Granel (LAB)","Costal 25 kg","Costal 50 kg","Big bag (1 TM)","Litro"];
+    if(formatosFijos.includes(entry.formato)){ fFormato.value = entry.formato; fFormatoOtroWrap.hidden = true; }
+    else{ fFormato.value = "Otro"; fFormatoOtroWrap.hidden = false; fFormatoOtro.value = entry.formato; }
+    selectedNivel = entry.nivel;
+    nivelGroup.querySelectorAll(".stamp-btn").forEach(b => b.classList.toggle("active", b.dataset.level === entry.nivel));
+    const origenRadio = document.querySelector('input[name="origen"][value="'+CSS.escape(entry.origen)+'"]');
+    if(origenRadio) origenRadio.checked = true;
+    fFecha.value = entry.fecha;
+    fNotas.value = entry.notas || "";
+    submitBtn.textContent = "Guardar cambios";
+    cancelEditBtn.hidden = false;
+    form.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function confirmDelete(entry){
+    if(entry.usuario !== currentUser.username) return;
+    modalRoot.innerHTML = "";
+    const backdrop = document.createElement("div");
+    backdrop.className = "modal-backdrop";
+    backdrop.innerHTML = `
+      <div class="modal">
+        <b>Eliminar referencia</b>
+        <p>Vas a eliminar el registro de <strong>${escapeHtml(entry.producto)}</strong> (${escapeHtml(entry.planta||'')}). Esta acción no se puede deshacer.</p>
+        <div class="modal-actions">
+          <button class="btn-ghost" id="modal-cancel">Cancelar</button>
+          <button class="btn-primary" id="modal-confirm" style="background:var(--danger);">Eliminar</button>
+        </div>
+      </div>`;
+    modalRoot.appendChild(backdrop);
+    $("modal-cancel").addEventListener("click", () => modalRoot.innerHTML = "");
+    $("modal-confirm").addEventListener("click", async () => {
+      try{
+        await window.storage.delete('entries:' + entry.id, true);
+        modalRoot.innerHTML = "";
+        await loadEntries();
+      }catch(err){ console.error(err); modalRoot.innerHTML = ""; }
+    });
+  }
+
+  function applyFilters(list){
+    const p = ftProducto.value, pl = ftPlanta.value, c = ftCompetidor.value.trim().toLowerCase();
+    const n = ftNivel.value, pr = ftPromotor.value, mine = ftMine.checked;
+    return list.filter(e => {
+      if(p){ if(p === "__otro__"){ if(PRODUCTOS_CATALOGO.includes(e.producto)) return false; } else if(e.producto !== p) return false; }
+      if(pl && e.planta !== pl) return false;
+      if(c && !e.competidor.toLowerCase().includes(c)) return false;
+      if(n && e.nivel !== n) return false;
+      if(pr && e.promotor !== pr) return false;
+      if(mine && e.usuario !== currentUser.username) return false;
+      return true;
+    });
+  }
+
+  function populateDynamicFilters(list){
+    const promotores = [...new Set(list.map(e => e.promotor))].sort((a,b)=>a.localeCompare(b));
+    const current = ftPromotor.value;
+    ftPromotor.innerHTML = '<option value="">Todos</option>';
+    promotores.forEach(p => { const o = document.createElement("option"); o.value = p; o.textContent = p; ftPromotor.appendChild(o); });
+    if(promotores.includes(current)) ftPromotor.value = current;
+  }
+
+  function renderStats(filtered, all){
+    const alta = filtered.filter(e=>e.nivel==='alta').length;
+    const media = filtered.filter(e=>e.nivel==='media').length;
+    const baja = filtered.filter(e=>e.nivel==='baja').length;
+    statsStrip.innerHTML = `
+      <span><b>${filtered.length}</b> mostrados de ${all.length}</span>
+      <span>Alta: <b>${alta}</b></span>
+      <span>Media: <b>${media}</b></span>
+      <span>Baja: <b>${baja}</b></span>
+    `;
+  }
+
+  function render(){
+    const filtered = applyFilters(entries).sort((a,b) => (b.fecha.localeCompare(a.fecha)) || (b.creado - a.creado));
+    populateDynamicFilters(entries);
+    renderStats(filtered, entries);
+    footerCount.textContent = entries.length + " registro(s) en total";
+
+    if(!filtered.length){
+      ledgerBody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><b>Sin registros</b>Aún no hay referencias que coincidan. Registra la primera arriba.</div></td></tr>`;
+      ledgerCards.innerHTML = `<div class="empty-state"><b>Sin registros</b>Aún no hay referencias que coincidan.</div>`;
+      return;
+    }
+
+    ledgerBody.innerHTML = filtered.map(e => {
+      const mine = e.usuario === currentUser.username;
+      const actions = mine
+        ? `<div class="row-actions">
+             <button class="icon-btn edit-btn" data-id="${e.id}">Editar</button>
+             <button class="icon-btn danger del-btn" data-id="${e.id}">Eliminar</button>
+           </div>`
+        : `<span class="locked-note">Solo el autor puede editar</span>`;
+      return `
+      <tr>
+        <td class="folio-cell">#${String(entries.length - entries.findIndex(x=>x.id===e.id)).padStart(4,'0')}</td>
+        <td class="num">${e.fecha}</td>
+        <td>${escapeHtml(e.producto)}</td>
+        <td class="folio-cell">${escapeHtml(e.planta||'—')}</td>
+        <td>${escapeHtml(e.competidor)}</td>
+        <td class="num">${money(e.precio, e.moneda)}</td>
+        <td>${escapeHtml(e.formato)}</td>
+        <td><span class="badge ${e.nivel}">${levelLabel(e.nivel)}</span><span class="origen-tag">${escapeHtml(e.origen)}</span></td>
+        <td class="promotor-tag">${escapeHtml(e.promotor)}</td>
+        <td><span class="notas-preview" title="${escapeHtml(e.notas)}">${escapeHtml(e.notas) || '—'}</span></td>
+        <td>${actions}</td>
+      </tr>`;
+    }).join("");
+
+    ledgerCards.innerHTML = filtered.map(e => {
+      const mine = e.usuario === currentUser.username;
+      const actions = mine
+        ? `<div class="row-actions">
+             <button class="icon-btn edit-btn" data-id="${e.id}">Editar</button>
+             <button class="icon-btn danger del-btn" data-id="${e.id}">Eliminar</button>
+           </div>`
+        : `<span class="locked-note">Solo el autor puede editar</span>`;
+      return `
+      <div class="entry-card">
+        <div class="top-row">
+          <div class="prod">${escapeHtml(e.producto)}</div>
+          <span class="badge ${e.nivel}">${levelLabel(e.nivel)}</span>
+        </div>
+        <div class="plant">${escapeHtml(e.planta||'')}</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:15px;">${money(e.precio, e.moneda)} <span style="font-weight:400;font-size:12px;color:var(--text-faint);">/ ${escapeHtml(e.formato)}</span></div>
+        <div class="meta"><span>${escapeHtml(e.competidor)}</span><span>&middot; ${e.fecha}</span><span>&middot; ${escapeHtml(e.promotor)}</span></div>
+        <div class="origen-tag">${escapeHtml(e.origen)}</div>
+        ${e.notas ? `<div class="notas-preview" style="white-space:normal;max-width:none;">${escapeHtml(e.notas)}</div>` : ""}
+        ${actions}
+      </div>`;
+    }).join("");
+
+    document.querySelectorAll(".edit-btn").forEach(b => b.addEventListener("click", () => {
+      const entry = entries.find(x => x.id === b.dataset.id); if(entry) startEdit(entry);
+    }));
+    document.querySelectorAll(".del-btn").forEach(b => b.addEventListener("click", () => {
+      const entry = entries.find(x => x.id === b.dataset.id); if(entry) confirmDelete(entry);
+    }));
+  }
+
+  [ftProducto, ftPlanta, ftCompetidor, ftNivel, ftPromotor, ftMine].forEach(el => {
+    el.addEventListener("input", render); el.addEventListener("change", render);
+  });
+  ftClear.addEventListener("click", () => {
+    ftProducto.value=""; ftPlanta.value=""; ftCompetidor.value=""; ftNivel.value=""; ftPromotor.value=""; ftMine.checked=false;
+    render();
+  });
+
+  async function loadEntries(){
+    ledgerBody.innerHTML = `<tr><td colspan="11"><div class="loading-note">Cargando registros&hellip;</div></td></tr>`;
+    try{
+      const list = await window.storage.list('entries:', true);
+      const keys = (list && list.keys) ? list.keys : [];
+      const loaded = [];
+      for(const k of keys){
+        try{ const r = await window.storage.get(k, true); if(r && r.value) loaded.push(JSON.parse(r.value)); }
+        catch(err){ /* skip corrupted key */ }
+      }
+      entries = loaded;
+    }catch(err){ console.error(err); entries = []; }
+    render();
+  }
+
+  async function ensureSeedAdmins(){
+    if(!storageAvailable()) return;
+    try{
+      const allowlist = await getAllowlist();
+      const admins = await getAdmins();
+      let changedAllow = false, changedAdmins = false;
+      SEED_ADMIN_EMAILS.forEach(email => {
+        if(!allowlist.includes(email)){ allowlist.push(email); changedAllow = true; }
+        if(!admins.includes(email)){ admins.push(email); changedAdmins = true; }
+      });
+      if(changedAllow) await setAllowlist(allowlist);
+      if(changedAdmins) await setAdmins(admins);
+    }catch(err){ console.error(err); }
+  }
+
+  function initAuthScreen(){
+    const configured = isBackendConfigured();
+    $("setup-notice").hidden = configured;
+    $("auth-tabs").hidden = !configured;
+    if(!configured){
+      loginForm.hidden = true;
+      registerForm.hidden = true;
+    }else{
+      loginForm.hidden = false;
+      registerForm.hidden = true;
+      ensureSeedAdmins();
+      tryResumeSession();
+    }
+  }
+  initAuthScreen();
+
+})();
+</script>
+</body>
+</html>
