@@ -358,7 +358,7 @@ button:disabled{ opacity:0.85; cursor:progress; }
 
     <div class="page-head">
       <h1>Referencias de precio de la competencia</h1>
-      <p>Captura y consulta las referencias reportadas por el equipo, organizadas por producto y punto LAB de referencia.</p>
+      <p>Captura y consulta las referencias reportadas por el equipo, organizadas por producto y puerto de referencia.</p>
     </div>
 
     <div class="section-label" id="admin-section-label" hidden><span class="dot"></span>Administrar accesos</div>
@@ -415,10 +415,13 @@ button:disabled{ opacity:0.85; cursor:progress; }
             <label for="f-formato">Formato de referencia</label>
             <select id="f-formato" required>
               <option value="">Selecciona&hellip;</option>
-              <option>Granel (LAB)</option>
+              <option>Granel</option>
+              <option>Costado de barco</option>
               <option>Costal 25 kg</option>
               <option>Costal 50 kg</option>
-              <option>Big bag (1 TM)</option>
+              <option>Envasado</option>
+              <option>En planta</option>
+              <option>Kilo</option>
               <option>Litro</option>
               <option value="Otro">Otro</option>
             </select>
@@ -480,7 +483,7 @@ button:disabled{ opacity:0.85; cursor:progress; }
           <select id="ft-producto"><option value="">Todos</option></select>
         </div>
         <div class="field">
-          <label for="ft-planta">Punto LAB</label>
+          <label for="ft-planta">Puerto</label>
           <select id="ft-planta"><option value="">Todos</option></select>
         </div>
         <div class="field">
@@ -513,7 +516,7 @@ button:disabled{ opacity:0.85; cursor:progress; }
         <table>
           <thead>
             <tr>
-              <th>Folio</th><th>Fecha</th><th>Producto</th><th>Punto LAB</th><th>Competidor</th>
+              <th>Folio</th><th>Fecha</th><th>Producto</th><th>Puerto</th><th>Competidor</th>
               <th>Precio</th><th>Formato</th><th>Confiabilidad</th><th>Promotor</th><th>Notas</th><th>Acciones</th>
             </tr>
           </thead>
@@ -1030,7 +1033,7 @@ window.storage = {
     const origenEl = document.querySelector('input[name="origen"]:checked');
 
     if(!producto || !fPlanta.value || !fCompetidor.value.trim() || !fPrecio.value || !formato || !selectedNivel || !fFecha.value){
-      formMsg.textContent = "Falta completar campos requeridos (incluye punto LAB y confiabilidad).";
+      formMsg.textContent = "Falta completar campos requeridos (incluye puerto y confiabilidad).";
       formMsg.classList.add("error");
       return;
     }
@@ -1244,7 +1247,7 @@ window.storage = {
       alert("No hay registros que coincidan con los filtros actuales para exportar.");
       return;
     }
-    const headers = ["Folio","Fecha","Producto","Planta","Competidor","Precio","Moneda","Formato","Confiabilidad","Origen del dato","Promotor","Notas"];
+    const headers = ["Folio","Fecha","Producto","Puerto","Competidor","Precio","Moneda","Formato","Confiabilidad","Origen del dato","Promotor","Notas"];
     const rows = filtered.map(e => {
       const folio = entries.length - entries.findIndex(x => x.id === e.id);
       return [
@@ -1319,3 +1322,4 @@ window.storage = {
 </script>
 </body>
 </html>
+
