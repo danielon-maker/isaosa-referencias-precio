@@ -391,7 +391,7 @@ button:disabled{ opacity:0.85; cursor:progress; }
           </div>
 
           <div class="field">
-            <label for="f-planta">Punto de referencia (LAB)</label>
+            <label for="f-planta">Puerto</label>
             <select id="f-planta" required></select>
           </div>
 
@@ -620,14 +620,11 @@ window.storage = {
     "Sulfato de Amonio STD","Sulfato de Amonio Granular","DAP","MAP",
     "MOP Granular (Cloruro de Potasio)","SOP Granular (Sulfato de Potasio)",
     "Capitán","Microessentials","K-MAG Premium","UAN32","Granubor",
-    "APP 11-37","Tiger XP","GSOP","Fosfonitrato","Fosfonitrato Densa"
-  ];
+    "APP 11-37","Tiger XP","GSOP","Fosfonitrato"];
 
   const PLANTAS_CATALOGO = [
-    "LAB Manzanillo","LAB Topolobampo","LAB Veracruz","LAB Altamira",
-    "Tolvas Moctezuma","Tolvas La Barca",
-    "Costado de Barco – Manzanillo","Costado de Barco – Topolobampo"
-  ];
+    "Manzanillo","Topolobampo","Veracruz","Altamira",
+    "Tolvas Moctezuma","Tolvas La Barca"];
 
   const $ = (id) => document.getElementById(id);
 
@@ -1081,7 +1078,7 @@ window.storage = {
     fCompetidor.value = entry.competidor;
     fPrecio.value = entry.precio;
     fMoneda.value = entry.moneda;
-    const formatosFijos = ["Granel (LAB)","Costal 25 kg","Costal 50 kg","Big bag (1 TM)","Litro"];
+    const formatosFijos = ["Granel","Costado de barco","Costal 25 kg","Costal 50 kg","Envasado","En planta","Kilo","Litro"];
     if(formatosFijos.includes(entry.formato)){ fFormato.value = entry.formato; fFormatoOtroWrap.hidden = true; }
     else{ fFormato.value = "Otro"; fFormatoOtroWrap.hidden = false; fFormatoOtro.value = entry.formato; }
     selectedNivel = entry.nivel;
@@ -1247,7 +1244,7 @@ window.storage = {
       alert("No hay registros que coincidan con los filtros actuales para exportar.");
       return;
     }
-    const headers = ["Folio","Fecha","Producto","Punto LAB","Competidor","Precio","Moneda","Formato","Confiabilidad","Origen del dato","Promotor","Notas"];
+    const headers = ["Folio","Fecha","Producto","Planta","Competidor","Precio","Moneda","Formato","Confiabilidad","Origen del dato","Promotor","Notas"];
     const rows = filtered.map(e => {
       const folio = entries.length - entries.findIndex(x => x.id === e.id);
       return [
