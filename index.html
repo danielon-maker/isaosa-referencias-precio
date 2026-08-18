@@ -432,6 +432,22 @@ button:disabled{ opacity:0.85; cursor:progress; }
             <input type="text" id="f-formato-otro" placeholder="Ej. tambo 200 L">
           </div>
 
+          <div class="field">
+            <label for="f-credito">Crédito ofrecido</label>
+            <select id="f-credito">
+              <option value="">No especificado</option>
+              <option value="Contado">Contado</option>
+              <option value="15">15 días</option>
+              <option value="30">30 días</option>
+              <option value="45">45 días</option>
+              <option value="60">60 días</option>
+              <option value="90">90 días</option>
+              <option value="120">120 días</option>
+              <option value="150">150 días</option>
+              <option value="180">180 días</option>
+            </select>
+          </div>
+
           <div class="field span2">
             <label>Nivel de confiabilidad</label>
             <div class="stamp-group" id="nivel-group">
@@ -517,7 +533,7 @@ button:disabled{ opacity:0.85; cursor:progress; }
           <thead>
             <tr>
               <th>Folio</th><th>Fecha</th><th>Producto</th><th>Puerto</th><th>Competidor</th>
-              <th>Precio</th><th>Formato</th><th>Confiabilidad</th><th>Promotor</th><th>Notas</th><th>Acciones</th>
+              <th>Precio</th><th>Formato</th><th>Crédito</th><th>Confiabilidad</th><th>Promotor</th><th>Notas</th><th>Acciones</th>
             </tr>
           </thead>
           <tbody id="ledger-body"></tbody>
@@ -944,6 +960,7 @@ window.storage = {
   const fFormato = $("f-formato");
   const fFormatoOtroWrap = $("formato-otro-wrap");
   const fFormatoOtro = $("f-formato-otro");
+  const fCredito = $("f-credito");
   const fFecha = $("f-fecha");
   const fNotas = $("f-notas");
   const nivelGroup = $("nivel-group");
@@ -1009,6 +1026,7 @@ window.storage = {
     return '$' + formatted + ' ' + currency;
   }
   function levelLabel(l){ return l === 'alta' ? 'Alta' : l === 'media' ? 'Media' : 'Baja'; }
+  function creditoLabel(c){ if(!c) return '—'; if(c === 'Contado') return 'Contado'; return c + ' días'; }
   function escapeHtml(str){ const d = document.createElement("div"); d.textContent = str == null ? "" : str; return d.innerHTML; }
 
   function resetForm(){
@@ -1046,6 +1064,7 @@ window.storage = {
       competidor: fCompetidor.value.trim(),
       precio: Number(fPrecio.value), moneda: fMoneda.value,
       formato,
+      credito: fCredito.value || "",
       nivel: selectedNivel,
       origen: origenEl ? origenEl.value : "",
       promotor: currentUser.nombre,
@@ -1084,6 +1103,7 @@ window.storage = {
     const formatosFijos = ["Granel","Costado de barco","Costal 25 kg","Costal 50 kg","Envasado","En planta","Kilo","Litro"];
     if(formatosFijos.includes(entry.formato)){ fFormato.value = entry.formato; fFormatoOtroWrap.hidden = true; }
     else{ fFormato.value = "Otro"; fFormatoOtroWrap.hidden = false; fFormatoOtro.value = entry.formato; }
+    fCredito.value = entry.credito || "";
     selectedNivel = entry.nivel;
     nivelGroup.querySelectorAll(".stamp-btn").forEach(b => b.classList.toggle("active", b.dataset.level === entry.nivel));
     const origenRadio = document.querySelector('input[name="origen"][value="'+CSS.escape(entry.origen)+'"]');
@@ -1166,7 +1186,7 @@ window.storage = {
     footerCount.textContent = entries.length + " registro(s) en total";
 
     if(!filtered.length){
-      ledgerBody.innerHTML = `<tr><td colspan="11"><div class="empty-state"><b>Sin registros</b>Aún no hay referencias que coincidan. Registra la primera arriba.</div></td></tr>`;
+      ledgerBody.innerHTML = `<tr><td colspan="12"><div class="empty-state"><b>Sin registros</b>Aún no hay referencias que coincidan. Registra la primera arriba.</div></td></tr>`;
       ledgerCards.innerHTML = `<div class="empty-state"><b>Sin registros</b>Aún no hay referencias que coincidan.</div>`;
       return;
     }
@@ -1188,6 +1208,7 @@ window.storage = {
         <td>${escapeHtml(e.competidor)}</td>
         <td class="num">${money(e.precio, e.moneda)}</td>
         <td>${escapeHtml(e.formato)}</td>
+        <td class="folio-cell">${creditoLabel(e.credito)}</td>
         <td><span class="badge ${e.nivel}">${levelLabel(e.nivel)}</span><span class="origen-tag">${escapeHtml(e.origen)}</span></td>
         <td class="promotor-tag">${escapeHtml(e.promotor)}</td>
         <td><span class="notas-preview" title="${escapeHtml(e.notas)}">${escapeHtml(e.notas) || '—'}</span></td>
@@ -1211,7 +1232,7 @@ window.storage = {
         </div>
         <div class="plant">${escapeHtml(e.planta||'')}</div>
         <div style="font-family:'JetBrains Mono',monospace;font-weight:600;font-size:15px;">${money(e.precio, e.moneda)} <span style="font-weight:400;font-size:12px;color:var(--text-faint);">/ ${escapeHtml(e.formato)}</span></div>
-        <div class="meta"><span>${escapeHtml(e.competidor)}</span><span>&middot; ${e.fecha}</span><span>&middot; ${escapeHtml(e.promotor)}</span></div>
+        <div class="meta"><span>${escapeHtml(e.competidor)}</span><span>&middot; ${e.fecha}</span><span>&middot; ${escapeHtml(e.promotor)}</span>${e.credito ? `<span>&middot; Crédito: ${creditoLabel(e.credito)}</span>` : ""}</div>
         <div class="origen-tag">${escapeHtml(e.origen)}</div>
         ${e.notas ? `<div class="notas-preview" style="white-space:normal;max-width:none;">${escapeHtml(e.notas)}</div>` : ""}
         ${actions}
@@ -1247,12 +1268,12 @@ window.storage = {
       alert("No hay registros que coincidan con los filtros actuales para exportar.");
       return;
     }
-    const headers = ["Folio","Fecha","Producto","Puerto","Competidor","Precio","Moneda","Formato","Confiabilidad","Origen del dato","Promotor","Notas"];
+    const headers = ["Folio","Fecha","Producto","Puerto","Competidor","Precio","Moneda","Formato","Crédito","Confiabilidad","Origen del dato","Promotor","Notas"];
     const rows = filtered.map(e => {
       const folio = entries.length - entries.findIndex(x => x.id === e.id);
       return [
         folio, e.fecha, e.producto, e.planta || "", e.competidor,
-        e.precio, e.moneda, e.formato, levelLabel(e.nivel), e.origen || "",
+        e.precio, e.moneda, e.formato, creditoLabel(e.credito), levelLabel(e.nivel), e.origen || "",
         e.promotor, e.notas || ""
       ].map(csvEscape).join(",");
     });
@@ -1273,7 +1294,7 @@ window.storage = {
   $("export-csv-btn").addEventListener("click", exportToCsv);
 
   async function loadEntries(){
-    ledgerBody.innerHTML = `<tr><td colspan="11"><div class="loading-note">Cargando registros&hellip;</div></td></tr>`;
+    ledgerBody.innerHTML = `<tr><td colspan="12"><div class="loading-note">Cargando registros&hellip;</div></td></tr>`;
     try{
       const list = await window.storage.list('entries:', true);
       const keys = (list && list.keys) ? list.keys : [];
